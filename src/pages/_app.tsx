@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
-import Image from 'next/image'
+import Image from 'next/future/image'
 import {
   Container,
   Header
