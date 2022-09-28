@@ -1,5 +1,4 @@
-import { globalCss } from ".";
-
+import { globalCss } from '.'
 
 export const globalStyles = globalCss({
   '*': {
@@ -11,12 +10,12 @@ export const globalStyles = globalCss({
   body: {
     '-webkit-font-smoothing': 'antialiased',
     backgroundColor: '$gray900',
-    color: '$gray100'
+    color: '$gray100',
   },
 
   'body, input, button, textarea': {
     fontFamily: 'Roboto',
     fontWeight: '400',
-    fontSize: '1rem'
-  }
+    fontSize: '1rem',
+  },
 })
