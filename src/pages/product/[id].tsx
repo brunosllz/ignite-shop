@@ -8,6 +8,8 @@ import {
   ProductContainer,
   ProductDetails,
 } from '../../styles/pages/product'
+import axios from 'axios'
+import { useState } from 'react'
 
 interface ProductProps {
   product: {
@@ -21,14 +23,30 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
+  const [isCreatingCheckouSession, setIsCreatingCheckouSession] =
+    useState(false)
+
   const { isFallback } = useRouter()
 
   if (isFallback) {
     return <p>...Loading</p>
   }
 
-  function handleCreateCheckout() {
-    console.log(product.defaultPriceId)
+  async function handleCreateCheckout() {
+    try {
+      setIsCreatingCheckouSession(true)
+
+      const response = await axios.post('/api/checkout', {
+        priceId: product.defaultPriceId,
+      })
+
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
+    } catch (error) {
+      setIsCreatingCheckouSession(false)
+      alert('Falha ao redicionar ao checkout!')
+    }
   }
 
   return (
@@ -40,7 +58,12 @@ export default function Product({ product }: ProductProps) {
         <h1>{product.name}</h1>
         <span>{product.price}</span>
         <p>{product.description}</p>
-        <button onClick={handleCreateCheckout}>Comprar agora</button>
+        <button
+          disabled={isCreatingCheckouSession}
+          onClick={handleCreateCheckout}
+        >
+          Comprar agora
+        </button>
       </ProductDetails>
     </ProductContainer>
   )
