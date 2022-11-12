@@ -15,13 +15,6 @@ import Image from 'next/future/image'
 import { Handbag } from 'phosphor-react'
 import 'keen-slider/keen-slider.min.css'
 
-// interface ProductProps extends IProducta {
-//   id: string
-//   name: string
-//   imageUrl: string
-//   price: string
-// }
-
 interface HomeProps {
   products: ProductProps[]
 }

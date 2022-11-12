@@ -19,9 +19,12 @@ import { Handbag, X } from 'phosphor-react'
 import logoSvg from '../../assets/logo.svg'
 
 export function Header() {
-  const { cartDetails, removeItem } = useShoppingCart()
+  const { cartDetails, removeItem, cartCount, formattedTotalPrice } =
+    useShoppingCart()
 
-  function HandleRemoveProduct(productId: string) {
+  console.log(cartCount)
+
+  function handleRemoveProduct(productId: string) {
     removeItem(productId)
   }
 
@@ -63,7 +66,7 @@ export function Header() {
                       <CheckoutProductCardDetails>
                         <span>{product.name}</span>
                         <strong>{product.formattedValue}</strong>
-                        <button onClick={() => HandleRemoveProduct(product.id)}>
+                        <button onClick={() => handleRemoveProduct(product.id)}>
                           Remover
                         </button>
                       </CheckoutProductCardDetails>
@@ -77,11 +80,15 @@ export function Header() {
               <div>
                 <CheckoutDetailsAmount>
                   <span>Quantidade</span>
-                  <span>3 itens</span>
+                  <span>
+                    {cartCount === 1
+                      ? `${cartCount} item`
+                      : `${cartCount} items`}
+                  </span>
                 </CheckoutDetailsAmount>
                 <CheckoutDetailsTotalValue>
                   <span>Valor total</span>
-                  <strong>R$ 270,00</strong>
+                  <strong>{formattedTotalPrice}</strong>
                 </CheckoutDetailsTotalValue>
               </div>
 
