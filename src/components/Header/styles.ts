@@ -10,6 +10,7 @@ export const HeaderContainer = styled('header', {
 
   button: {
     padding: '0.75rem',
+    position: 'relative',
     backgroundColor: '$gray800',
     borderRadius: '6px',
     border: 0,
@@ -17,6 +18,25 @@ export const HeaderContainer = styled('header', {
     height: '3rem',
     color: '$gray400',
     cursor: 'pointer',
+
+    div: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 99,
+
+      color: '$white',
+      fontSize: '0.875rem',
+      fontWeight: 'bold',
+      backgroundColor: '$green500',
+
+      width: '24px',
+      height: '24px',
+
+      position: 'absolute',
+      top: -8,
+      right: -8,
+    },
   },
 })
 

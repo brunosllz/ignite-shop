@@ -28,6 +28,8 @@ export function Header() {
     removeItem(productId)
   }
 
+  const hasProductOnShoopingCart = cartCount > 0
+
   return (
     <HeaderContainer>
       <Link href="/">
@@ -35,10 +37,9 @@ export function Header() {
       </Link>
 
       <Dialog.Root>
-        <Dialog.Trigger asChild>
-          <button>
-            <Handbag size={24} weight="bold" />
-          </button>
+        <Dialog.Trigger>
+          <Handbag size={24} weight="bold" />
+          {hasProductOnShoopingCart && <div>{cartCount}</div>}
         </Dialog.Trigger>
 
         <Dialog.Portal>
