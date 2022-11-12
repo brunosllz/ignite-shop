@@ -1,36 +1,38 @@
+import { useState } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import Image from 'next/future/image'
-import Stripe from 'stripe'
 import { stripe } from '../../lib/stripe'
+import Stripe from 'stripe'
+import axios from 'axios'
+import { useShoppingCart } from 'use-shopping-cart'
+import { Product as IProduct } from 'use-shopping-cart/core/index'
+
 import {
   ImageContainer,
   ProductContainer,
   ProductDetails,
 } from '../../styles/pages/product'
-import axios from 'axios'
-import { useState } from 'react'
+import Image from 'next/future/image'
 import Head from 'next/head'
+import { formatPrice } from '../../utils/formatPrice'
 
 interface ProductProps {
-  product: {
-    id: string
-    name: string
-    imageUrl: string
-    price: string
-    description: string
-    defaultPriceId: string
-  }
+  product: IProduct
 }
 
 export default function Product({ product }: ProductProps) {
   const [isCreatingCheckouSession, setIsCreatingCheckouSession] =
     useState(false)
+  const { addItem } = useShoppingCart()
 
   const { isFallback } = useRouter()
 
   if (isFallback) {
     return <p>...Loading</p>
+  }
+
+  function handleAddProductToCart(product: IProduct) {
+    addItem(product)
   }
 
   async function handleCreateCheckout() {
@@ -62,13 +64,13 @@ export default function Product({ product }: ProductProps) {
         </ImageContainer>
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price}</span>
+          <span>{formatPrice(product.price)}</span>
           <p>{product.description}</p>
           <button
             disabled={isCreatingCheckouSession}
-            onClick={handleCreateCheckout}
+            onClick={() => handleAddProductToCart(product)}
           >
-            Comprar agora
+            Colocar na sacola
           </button>
         </ProductDetails>
       </ProductContainer>
@@ -101,10 +103,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
         name: product.name,
         description: product.description,
         imageUrl: product.images[0],
-        price: new Intl.NumberFormat('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        }).format(price.unit_amount / 100),
+        price: price.unit_amount,
         defaultPriceId: price.id,
       },
     },
