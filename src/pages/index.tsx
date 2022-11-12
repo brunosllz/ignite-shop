@@ -1,14 +1,15 @@
 import { GetStaticProps } from 'next'
+import { useKeenSlider } from 'keen-slider/react'
+import Stripe from 'stripe'
+import { stripe } from '../lib/stripe'
+
 import Link from 'next/link'
 import Head from 'next/head'
 import { HomeContainer, Product } from '../styles/pages/home'
-import Stripe from 'stripe'
-import { stripe } from '../lib/stripe'
-import { useKeenSlider } from 'keen-slider/react'
 
 import Image from 'next/future/image'
-import 'keen-slider/keen-slider.min.css'
 import { Handbag } from 'phosphor-react'
+import 'keen-slider/keen-slider.min.css'
 
 interface HomeProps {
   products: {
@@ -22,7 +23,7 @@ interface HomeProps {
 export default function Home({ products }: HomeProps) {
   const [sliderRef] = useKeenSlider({
     slides: {
-      perView: 1.5,
+      perView: 1.75,
       spacing: 48,
     },
   })
@@ -51,7 +52,7 @@ export default function Home({ products }: HomeProps) {
                   </div>
 
                   <button>
-                    <Handbag size={24} weight="bold" />
+                    <Handbag size={32} weight="bold" />
                   </button>
                 </footer>
               </Product>
