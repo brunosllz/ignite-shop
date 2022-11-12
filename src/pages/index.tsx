@@ -1,32 +1,48 @@
+import { MouseEvent } from 'react'
 import { GetStaticProps } from 'next'
 import { useKeenSlider } from 'keen-slider/react'
 import Stripe from 'stripe'
 import { stripe } from '../lib/stripe'
+import { Product as ProductProps } from 'use-shopping-cart/core/index'
+import { useShoppingCart } from 'use-shopping-cart'
+import { formatPrice } from '../utils/formatPrice'
 
+import { HomeContainer, Product } from '../styles/pages/home'
 import Link from 'next/link'
 import Head from 'next/head'
-import { HomeContainer, Product } from '../styles/pages/home'
 
 import Image from 'next/future/image'
 import { Handbag } from 'phosphor-react'
 import 'keen-slider/keen-slider.min.css'
 
+// interface ProductProps extends IProducta {
+//   id: string
+//   name: string
+//   imageUrl: string
+//   price: string
+// }
+
 interface HomeProps {
-  products: {
-    id: string
-    name: string
-    imageUrl: string
-    price: string
-  }[]
+  products: ProductProps[]
 }
 
 export default function Home({ products }: HomeProps) {
+  const { addItem } = useShoppingCart()
+
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 1.75,
       spacing: 48,
     },
   })
+
+  function handleAddProductToCart(
+    e: MouseEvent<HTMLButtonElement>,
+    product: ProductProps,
+  ) {
+    e.preventDefault()
+    addItem(product)
+  }
 
   return (
     <>
@@ -48,10 +64,10 @@ export default function Home({ products }: HomeProps) {
                 <footer>
                   <div>
                     <strong>{product.name}</strong>
-                    <span>{product.price}</span>
+                    <span>{formatPrice(product.price)}</span>
                   </div>
 
-                  <button>
+                  <button onClick={(e) => handleAddProductToCart(e, product)}>
                     <Handbag size={32} weight="bold" />
                   </button>
                 </footer>
@@ -76,10 +92,7 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-      }).format(price.unit_amount / 100),
+      price: price.unit_amount,
     }
   })
 
