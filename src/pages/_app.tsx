@@ -13,14 +13,10 @@ globalStyles()
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <CartProvider
-      mode="payment"
-      cartMode="client-only"
+      cartMode="checkout-session"
       stripe={process.env.STRIPE_PUBLIC_KEY}
       shouldPersist
-      successUrl="stripe.com"
-      cancelUrl="localhost:3000"
       currency="BRL"
-      billingAddressCollection={true}
     >
       <ToastContainer />
       <Container>

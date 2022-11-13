@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { stripe } from '../../lib/stripe'
 import Stripe from 'stripe'
-import axios from 'axios'
 import { useShoppingCart } from 'use-shopping-cart'
 import { Product as IProduct } from 'use-shopping-cart/core/index'
+import { formatPrice } from '../../utils/formatPrice'
 
 import {
   ImageContainer,
@@ -14,16 +13,14 @@ import {
 } from '../../styles/pages/product'
 import Image from 'next/future/image'
 import Head from 'next/head'
-import { formatPrice } from '../../utils/formatPrice'
+import { toast } from 'react-toastify'
 
 interface ProductProps {
   product: IProduct
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckouSession, setIsCreatingCheckouSession] =
-    useState(false)
-  const { addItem } = useShoppingCart()
+  const { addItem, cartDetails } = useShoppingCart()
 
   const { isFallback } = useRouter()
 
@@ -32,24 +29,18 @@ export default function Product({ product }: ProductProps) {
   }
 
   function handleAddProductToCart(product: IProduct) {
-    addItem(product)
-  }
+    const findProductId = Object.values(cartDetails).find((item) => {
+      return item.id === product.id
+    })
 
-  async function handleCreateCheckout() {
-    try {
-      setIsCreatingCheckouSession(true)
-
-      const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId,
+    if (findProductId) {
+      return toast.error('Você já tem uma unidade deste produto no carinho', {
+        autoClose: 1000,
+        theme: 'colored',
       })
-
-      const { checkoutUrl } = response.data
-
-      window.location.href = checkoutUrl
-    } catch (error) {
-      setIsCreatingCheckouSession(false)
-      alert('Falha ao redicionar ao checkout!')
     }
+
+    addItem(product)
   }
 
   return (
@@ -66,10 +57,7 @@ export default function Product({ product }: ProductProps) {
           <h1>{product.name}</h1>
           <span>{formatPrice(product.price)}</span>
           <p>{product.description}</p>
-          <button
-            disabled={isCreatingCheckouSession}
-            onClick={() => handleAddProductToCart(product)}
-          >
+          <button onClick={() => handleAddProductToCart(product)}>
             Colocar na sacola
           </button>
         </ProductDetails>

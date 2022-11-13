@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
+import axios from 'axios'
 
 import {
   HeaderContainer,
@@ -14,21 +16,51 @@ import {
 import Image from 'next/future/image'
 import Link from 'next/link'
 import * as Dialog from '@radix-ui/react-dialog'
+import { toast } from 'react-toastify'
 
 import { Handbag, X } from 'phosphor-react'
 import logoSvg from '../../assets/logo.svg'
 
 export function Header() {
+  const [isCreatingCheckouSession, setIsCreatingCheckouSession] =
+    useState(false)
   const { cartDetails, removeItem, cartCount, formattedTotalPrice } =
     useShoppingCart()
-
-  console.log(cartCount)
 
   function handleRemoveProduct(productId: string) {
     removeItem(productId)
   }
 
   const hasProductOnShoopingCart = cartCount > 0
+
+  async function handleCreateCheckout() {
+    if (!hasProductOnShoopingCart) {
+      return toast.error('Você não tem productos no carrinho', {
+        autoClose: 1000,
+        theme: 'dark',
+      })
+    }
+
+    try {
+      setIsCreatingCheckouSession(true)
+
+      const response = await axios.post('api/checkout', {
+        products: cartDetails,
+      })
+
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
+    } catch (error) {
+      toast.error('Falha ao redicionar ao checkout!', {
+        autoClose: 1000,
+        theme: 'dark',
+      })
+
+      console.log('error: ', error)
+      setIsCreatingCheckouSession(false)
+    }
+  }
 
   return (
     <HeaderContainer>
@@ -93,7 +125,12 @@ export function Header() {
                 </CheckoutDetailsTotalValue>
               </div>
 
-              <button>Finalizar compra</button>
+              <button
+                disabled={!hasProductOnShoopingCart || isCreatingCheckouSession}
+                onClick={handleCreateCheckout}
+              >
+                Finalizar compra
+              </button>
             </footer>
           </Dialog.Content>
         </Dialog.Portal>
