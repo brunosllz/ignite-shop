@@ -22,6 +22,11 @@ export const SuccessContainer = styled('main', {
     lineHeight: 1.4,
   },
 
+  ul: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
   a: {
     display: 'block',
     marginTop: '5rem',
@@ -36,14 +41,19 @@ export const SuccessContainer = styled('main', {
   },
 })
 
-export const ImageContainer = styled('div', {
+export const ImageContainer = styled('li', {
   width: '100%',
-  maxWidth: 130,
-  height: 145,
-  borderRadius: 8,
+  maxWidth: 140,
+  height: 140,
+  borderRadius: 999,
   background: 'linear-gradient(180deg, #1EA483 0%, #7465D4 100%)',
   padding: '0.25rem',
   marginTop: '4rem',
+  boxShadow: '5px 5px 15px 2px rgba(0,0,0,.8)',
+
+  '&:not(:only-child)': {
+    marginRight: -42,
+  },
 
   display: 'flex',
   alignItems: 'center',
