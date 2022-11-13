@@ -8,6 +8,7 @@ import { useShoppingCart } from 'use-shopping-cart'
 import { formatPrice } from '../utils/formatPrice'
 
 import { HomeContainer, Product } from '../styles/pages/home'
+import { toast } from 'react-toastify'
 import Link from 'next/link'
 import Head from 'next/head'
 
@@ -20,7 +21,7 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const { addItem } = useShoppingCart()
+  const { addItem, cartDetails } = useShoppingCart()
 
   const [sliderRef] = useKeenSlider({
     slides: {
@@ -34,6 +35,18 @@ export default function Home({ products }: HomeProps) {
     product: ProductProps,
   ) {
     e.preventDefault()
+
+    const findProductId = Object.values(cartDetails).find((item) => {
+      return item.id === product.id
+    })
+
+    if (findProductId) {
+      return toast.error('Você já tem uma unidade deste produto no carinho', {
+        autoClose: 1000,
+        theme: 'colored',
+      })
+    }
+
     addItem(product)
   }
 
