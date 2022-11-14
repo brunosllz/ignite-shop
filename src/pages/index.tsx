@@ -1,20 +1,24 @@
 import { MouseEvent } from 'react'
 import { GetStaticProps } from 'next'
-import { useKeenSlider } from 'keen-slider/react'
 import Stripe from 'stripe'
 import { stripe } from '../lib/stripe'
 import { Product as ProductProps } from 'use-shopping-cart/core/index'
 import { useShoppingCart } from 'use-shopping-cart'
 import { formatPrice } from '../utils/formatPrice'
 
-import { HomeContainer, Product } from '../styles/pages/home'
+import { HomeContainer, Product, SliderContainer } from '../styles/pages/home'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
 import Head from 'next/head'
+import { SwiperSlide, SwiperProps } from 'swiper/react'
+import { Navigation } from 'swiper'
 
 import Image from 'next/future/image'
 import { Handbag } from 'phosphor-react'
-import 'keen-slider/keen-slider.min.css'
+
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css'
 
 interface HomeProps {
   products: ProductProps[]
@@ -22,13 +26,6 @@ interface HomeProps {
 
 export default function Home({ products }: HomeProps) {
   const { addItem, cartDetails } = useShoppingCart()
-
-  const [sliderRef] = useKeenSlider({
-    slides: {
-      perView: 1.75,
-      spacing: 48,
-    },
-  })
 
   function handleAddProductToCart(
     e: MouseEvent<HTMLButtonElement>,
@@ -50,37 +47,69 @@ export default function Home({ products }: HomeProps) {
     addItem(product)
   }
 
+  const swipersSettings: SwiperProps = {
+    spaceBetween: 48,
+    slidesPerView: 2,
+    navigation: true,
+    draggable: true,
+    // breakpoints: {
+    //   768: {
+    //     slidesPerView: 2,
+    //     spaceBetween: 20,
+    //   },
+    //   900: {
+    //     slidesPerView: 3,
+    //     spaceBetween: 24,
+    //   },
+    //   1146: {
+    //     slidesPerView: 4,
+    //     spaceBetween: 24,
+    //   },
+    //   1330: {
+    //     slidesPerView: 5,
+    //     spaceBetween: 24,
+    //   },
+    // },
+  }
+
   return (
     <>
       <Head>
         <title>Home | Ignite Shop</title>
       </Head>
 
-      <HomeContainer ref={sliderRef} className="keen-slider">
-        {products.map((product) => {
-          return (
-            <Link
-              key={product.id}
-              href={`/product/${product.id}`}
-              prefetch={false}
-            >
-              <Product className="keen-slider__slide">
-                <Image src={product.imageUrl} alt="" width={520} height={480} />
+      <HomeContainer>
+        <SliderContainer modules={[Navigation]} {...swipersSettings}>
+          {products.map((product) => {
+            return (
+              <SwiperSlide key={product.id}>
+                <Link href={`/product/${product.id}`} prefetch={false}>
+                  <Product>
+                    <Image
+                      src={product.imageUrl}
+                      alt=""
+                      width={520}
+                      height={480}
+                    />
 
-                <footer>
-                  <div>
-                    <strong>{product.name}</strong>
-                    <span>{formatPrice(product.price)}</span>
-                  </div>
+                    <footer>
+                      <div>
+                        <strong>{product.name}</strong>
+                        <span>{formatPrice(product.price)}</span>
+                      </div>
 
-                  <button onClick={(e) => handleAddProductToCart(e, product)}>
-                    <Handbag size={32} weight="bold" />
-                  </button>
-                </footer>
-              </Product>
-            </Link>
-          )
-        })}
+                      <button
+                        onClick={(e) => handleAddProductToCart(e, product)}
+                      >
+                        <Handbag size={32} weight="bold" />
+                      </button>
+                    </footer>
+                  </Product>
+                </Link>
+              </SwiperSlide>
+            )
+          })}
+        </SliderContainer>
       </HomeContainer>
     </>
   )

@@ -1,11 +1,70 @@
 import { styled } from '..'
+import { Swiper } from 'swiper/react'
 
 export const HomeContainer = styled('main', {
   display: 'flex',
   width: '100%',
-  maxWidth: 'calc(100vw - ((100vw - 1280px) / 2))',
-  marginLeft: 'auto',
   minHeight: 696,
+
+  '.swiper': {
+    paddingRight: 'calc((753px / 2)) ',
+  },
+})
+
+export const SliderContainer = styled(Swiper, {
+  '.swiper-wrapper': {
+    paddingLeft: 'calc((100vw - 1180px) / 2)',
+  },
+
+  '.swiper-button-disabled)': {
+    display: 'none',
+  },
+
+  '.swiper-button-prev': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: '0 2rem',
+    height: '753px',
+    width: '126px',
+
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    background: 'linear-gradient(90deg, #121214 0%, rgba(18, 18, 20, 0) 100%)',
+
+    '&::after': {
+      display: 'flex',
+      color: '$gray300',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: '$2xl',
+      fontWeight: 'bold',
+    },
+  },
+
+  '.swiper-button-next': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 2rem',
+    height: '753px',
+    width: '126px',
+
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    background: 'linear-gradient(-90deg, #121214 0%, rgba(18, 18, 20, 0) 100%)',
+
+    '&::after': {
+      display: 'flex',
+      color: '$gray300',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: '$2xl',
+      fontWeight: 'bold',
+    },
+  },
 })
 
 export const Product = styled('div', {
@@ -13,6 +72,8 @@ export const Product = styled('div', {
   borderRadius: 8,
   cursor: 'pointer',
   position: 'relative',
+  minHeight: '696px',
+  minWidth: '696px',
 
   display: 'flex',
   alignItems: 'center',
