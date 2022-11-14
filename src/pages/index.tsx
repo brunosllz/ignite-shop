@@ -44,6 +44,10 @@ export default function Home({ products }: HomeProps) {
       })
     }
 
+    toast.success('Produto adicionado ao carrinho.', {
+      autoClose: 1000,
+      theme: 'dark',
+    })
     addItem(product)
   }
 
