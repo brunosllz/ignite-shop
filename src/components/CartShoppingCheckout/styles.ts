@@ -12,17 +12,12 @@ export const content = css({
   width: '480px',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'space-between',
   boxShadow: '5px 5px 10px 8px rgba(0,0,0,.8)',
 
   padding: '3rem',
   bottom: 0,
   top: 0,
   right: 0,
-
-  h2: {
-    fontSize: '$lg',
-  },
 
   footer: {
     display: 'flex',
@@ -54,6 +49,35 @@ export const content = css({
       '&:not(:disabled):hover': {
         backgroundColor: '$green300',
       },
+    },
+  },
+})
+
+export const ContentDetails = styled('div', {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  overflowY: 'auto',
+
+  h2: {
+    fontSize: '$lg',
+  },
+
+  '& > div': {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    svg: {
+      marginBottom: '16px',
+    },
+
+    span: {
+      fontSize: '$md',
+      lineHeight: '1.6rem',
     },
   },
 })
@@ -93,14 +117,17 @@ export const ImageContainer = styled('div', {
 })
 
 export const CheckoutProductCardDetails = styled('div', {
+  gap: '0.5rem',
+  width: '100%',
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.5rem',
 
   span: {
+    display: 'block',
     fontSize: '1.125rem',
     color: '$gray300',
   },
+
   strong: {
     fontSize: '1.125rem',
     color: '$gray100',
