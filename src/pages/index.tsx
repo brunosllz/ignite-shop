@@ -28,10 +28,10 @@ export default function Home({ products }: HomeProps) {
   const { addItem, cartDetails } = useShoppingCart()
 
   function handleAddProductToCart(
-    e: MouseEvent<HTMLButtonElement>,
+    event: MouseEvent<HTMLButtonElement>,
     product: ProductProps,
   ) {
-    e.preventDefault()
+    event.preventDefault()
 
     const findProductId = Object.values(cartDetails).find((item) => {
       return item.id === product.id
@@ -53,27 +53,9 @@ export default function Home({ products }: HomeProps) {
 
   const swipersSettings: SwiperProps = {
     spaceBetween: 48,
-    slidesPerView: 2,
+    slidesPerView: 1.5,
     navigation: true,
     draggable: true,
-    // breakpoints: {
-    //   768: {
-    //     slidesPerView: 2,
-    //     spaceBetween: 20,
-    //   },
-    //   900: {
-    //     slidesPerView: 3,
-    //     spaceBetween: 24,
-    //   },
-    //   1146: {
-    //     slidesPerView: 4,
-    //     spaceBetween: 24,
-    //   },
-    //   1330: {
-    //     slidesPerView: 5,
-    //     spaceBetween: 24,
-    //   },
-    // },
   }
 
   return (
@@ -103,7 +85,9 @@ export default function Home({ products }: HomeProps) {
                       </div>
 
                       <button
-                        onClick={(e) => handleAddProductToCart(e, product)}
+                        onClick={(event) =>
+                          handleAddProductToCart(event, product)
+                        }
                       >
                         <Handbag size={32} weight="bold" />
                       </button>

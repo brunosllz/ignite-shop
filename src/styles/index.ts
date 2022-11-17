@@ -30,4 +30,7 @@ export const {
       '2xl': '2rem',
     },
   },
+  media: {
+    bp1: '(min-width: 1120px)',
+  },
 })

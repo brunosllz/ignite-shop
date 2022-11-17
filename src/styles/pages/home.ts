@@ -5,19 +5,17 @@ export const HomeContainer = styled('main', {
   display: 'flex',
   width: '100%',
   minHeight: 696,
+  marginBottom: '50px',
 
   '.swiper': {
-    paddingRight: 'calc((753px / 2)) ',
+    paddingRight: 'calc((100vw / 2) / 1.7) ',
+    zIndex: 0,
   },
 })
 
 export const SliderContainer = styled(Swiper, {
   '.swiper-wrapper': {
     paddingLeft: 'calc((100vw - 1180px) / 2)',
-  },
-
-  '.swiper-button-disabled)': {
-    display: 'none',
   },
 
   '.swiper-button-prev': {
@@ -65,6 +63,10 @@ export const SliderContainer = styled(Swiper, {
       fontWeight: 'bold',
     },
   },
+
+  '.swiper-button-disabled': {
+    display: 'none',
+  },
 })
 
 export const Product = styled('div', {
@@ -73,7 +75,11 @@ export const Product = styled('div', {
   cursor: 'pointer',
   position: 'relative',
   minHeight: '696px',
-  minWidth: '696px',
+  minWidth: '600px',
+
+  '@bp1': {
+    minWidth: '696px',
+  },
 
   display: 'flex',
   alignItems: 'center',
