@@ -6,7 +6,7 @@ import Link from 'next/link'
 import * as Dialog from '@radix-ui/react-dialog'
 
 import { Handbag } from 'phosphor-react'
-import logoSvg from '../../assets/logo.svg'
+import logoSvg from '../../../public/logo.svg'
 import { CartShoppingCheckout } from '../CartShoppingCheckout'
 
 export function Header() {

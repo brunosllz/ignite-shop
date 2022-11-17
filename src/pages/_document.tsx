@@ -20,6 +20,7 @@ export default function Document() {
           id="stitches"
           dangerouslySetInnerHTML={{ __html: getCssText() }}
         />
+        <link rel="icon" type="image/svg+xml" href="/logo.svg" />
       </Head>
       <body>
         <Main />
