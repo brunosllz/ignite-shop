@@ -55,7 +55,7 @@ $ npm run dev ou yarn dev
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
-- Vite
+- NextJS
 - Typescript
 - TailwildCss
 - Stripe
